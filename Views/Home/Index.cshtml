@@ -1,8 +1,71 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    @model RoomMeasurements;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<div class="container">
+    <form name="roomMeasurements" asp-controller="Home" asp-action="Results" method="post">
+        <div class="row">
+            <div class="col-lg-2">
+                <label class="form-check-label" asp-for="wallOne">
+                    @Html.DisplayNameFor(model => model.wallOne) <br />
+                </label>
+            </div>
+            <div class="col-lg-8 text-left">
+                <input class="form-check-input" asp-for="wallOne" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-2">
+                <label class="form-check-label" asp-for="wallTwo">
+                    @Html.DisplayNameFor(model => model.wallTwo) <br />
+                </label>
+            </div>
+            <div class="col-lg-8 text-left">
+                <input class="form-check-input" asp-for="wallTwo" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-2">
+                <label class="form-check-label" asp-for="wallThree">
+                    @Html.DisplayNameFor(model => model.wallThree) <br />
+                </label>
+            </div>
+            <div class="col-lg-8 text-left">
+                <input class="form-check-input" asp-for="wallThree" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-2">
+                <label class="form-check-label" asp-for="wallFour">
+                    @Html.DisplayNameFor(model => model.wallFour) <br />
+                </label>
+            </div>
+            <div class="col-lg-8 text-left">
+                <input class="form-check-input" asp-for="wallFour" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-2">
+                <label class="form-check-label" asp-for="roomHeight">
+                    @Html.DisplayNameFor(model => model.roomHeight) <br />
+                </label>
+            </div>
+            <div class="col-lg-8 text-left">
+                <input class="form-check-input" asp-for="roomHeight" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-5">
+                <button type="submit">Calculate</button>
+            </div>
+            <div class="col-lg-5 text-left">
+            </div>
+        </div>
+    </form>
+</div> 
