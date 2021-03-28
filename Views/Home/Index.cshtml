@@ -1,71 +1,133 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    @model RoomMeasurements;
+    @model WallMeasurement;
 }
 
 <div class="container">
-    <form name="roomMeasurements" asp-controller="Home" asp-action="Results" method="post">
+    <form id="roomMeasurements" name="roomMeasurements" asp-controller="Home" asp-action="Results" method="post">
         <div class="row">
-            <div class="col-lg-2">
-                <label class="form-check-label" asp-for="wallOne">
-                    @Html.DisplayNameFor(model => model.wallOne) <br />
-                </label>
-            </div>
-            <div class="col-lg-8 text-left">
-                <input class="form-check-input" asp-for="wallOne" />
+            <div class="col-lg-12">
+                <div id="wallContainer">
+                    <div class="wall-row-id">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h2>Wall - 1 </h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label class="form-check-label">Height</label>
+                            </div>
+                            <div class="col-lg-2 text-left">
+                                <input id="wallHeight" type="number" step="1" required='required' class="text-left" />
+                            </div>
+                            <div class="col-lg-2">
+                                <label class="form-check-label">Width</label>
+                            </div>
+                            <div class="col-lg-2">
+                                <input id="wallWidth" type="number" step="1" required='required' class="text-left"/>
+                            </div>
+                            <div class="col-lg-2 text-right">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <br />
         <div class="row">
-            <div class="col-lg-2">
-                <label class="form-check-label" asp-for="wallTwo">
-                    @Html.DisplayNameFor(model => model.wallTwo) <br />
-                </label>
-            </div>
-            <div class="col-lg-8 text-left">
-                <input class="form-check-input" asp-for="wallTwo" />
+            <div class="col-lg-12 text-right">
+                <button type="button" class="btn btn-lg btn-primary mt-2" onclick="addWallToRoom();">Add Wall</button>
             </div>
         </div>
-        <br />
         <div class="row">
-            <div class="col-lg-2">
-                <label class="form-check-label" asp-for="wallThree">
-                    @Html.DisplayNameFor(model => model.wallThree) <br />
-                </label>
-            </div>
-            <div class="col-lg-8 text-left">
-                <input class="form-check-input" asp-for="wallThree" />
+            <div class="col-lg-12 text-right">
+                <button type="button" class="btn btn-lg btn-success mt-2" onclick="submitWallForm();">Calculate</button>
             </div>
         </div>
-        <br />
-        <div class="row">
-            <div class="col-lg-2">
-                <label class="form-check-label" asp-for="wallFour">
-                    @Html.DisplayNameFor(model => model.wallFour) <br />
-                </label>
-            </div>
-            <div class="col-lg-8 text-left">
-                <input class="form-check-input" asp-for="wallFour" />
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-lg-2">
-                <label class="form-check-label" asp-for="roomHeight">
-                    @Html.DisplayNameFor(model => model.roomHeight) <br />
-                </label>
-            </div>
-            <div class="col-lg-8 text-left">
-                <input class="form-check-input" asp-for="roomHeight" />
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-lg-5">
-                <button type="submit">Calculate</button>
-            </div>
-            <div class="col-lg-5 text-left">
-            </div>
-        </div>
+
     </form>
-</div> 
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        //global variable, the room will always have at least 1 wall
+        var wallCounter = 1;
+
+        //Dynamically add more walls
+        function addWallToRoom() {
+            wallCounter += 1;
+            var html = "";
+            html += "<div class='wall-row-id'>";
+            html += "                <div class='row'>"
+            html += "                    <div class='col - lg - 12'>";
+            html += "                        <h2>Wall -" + wallCounter + " </h2>";
+            html += "                    </div>";
+            html += "                </div>";
+            html += "                <div class='row'>"
+            html += "                    <div class='col-lg-2'>";
+            html += "                        <label class='form - check - label'>Height</label>";
+            html += "                    </div >";
+            html += "                    <div class='col-lg-2 text-left'>";
+            html += "                        <input id='wallHeight' type='number' step='1' required='required' class='text-left' />";
+            html += "                    </div>";
+            html += "                    <div class='col-lg-2'>";
+            html += "                        <label class='form-check-label'>Width</label>";
+            html += "                    </div>";
+            html += "                    <div class='col-lg-2'>";
+            html += "                        <input id='wallWidth' type='number' step='1' required='required' class='text-left'/>";
+            html += "                    </div>";
+            html += "                    <div class='col-lg-2 text-right'>";
+            html += "                        <button type='button' class='btn btn-sm btn-danger' onclick='deleteWall(this)'><i class='fas fa-trash'></i></button>";
+            html += "                    </div>";
+            html += "                </div>";
+            html += "</div >";
+
+            $("#wallContainer").append(html);
+        }
+
+
+        //remove the added wall and update the wall counter.
+        function deleteWall(wall) {
+            var wallToRemove = $(wall).closest('.wall-row-id');
+            wallToRemove.remove();
+            wallCounter -= 1;
+        }
+
+        function validateForm(formId) {
+            var formValid = true;
+
+            // Validate all textboxes, textareas, dropdowns
+            
+            
+            $(formId).find('input:not([type="radio"]), textarea, select').filter('[required]:visible').each(function () {
+                console.log($(this).attr('id'));
+                if ($(this).val() == '') {
+                    formValid = false;
+                    $(this).addClass('form-control-invalid');
+                } else {
+                    $(this).removeClass('form-control-invalid');
+                }
+            });
+
+            return formValid;
+        }
+
+        function submitWallForm() {
+            var validate = validateForm("#roomMeasurements");
+
+            if (!validate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'All fields must be filled in!',
+                });
+
+                return;
+            }
+
+            $("#roomMeasurements").submit();
+        }
+
+    </script>
+}
+
